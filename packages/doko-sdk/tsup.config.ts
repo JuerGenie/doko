@@ -1,9 +1,14 @@
 import { defineConfig } from "tsup";
 import pkg from "./package.json";
+import glob from "glob";
+
+const entry = glob
+  .sync("./src/**/*.ts")
+  .filter((file) => !file.endsWith(".d.ts"));
 
 export default defineConfig({
   sourcemap: true,
-  entry: ["./src/index.ts"],
+  entry,
   dts: true,
   format: ["esm", "cjs"],
   external: Object.keys(pkg.peerDependencies),

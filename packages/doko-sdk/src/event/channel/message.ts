@@ -6,6 +6,7 @@ import { DodoEventType } from "../../model/event/event-type.js";
 import {
   CardMessage,
   FileMessage,
+  MessageType,
   PictureMessage,
   ShareMessage,
   TextMessage,
@@ -34,21 +35,50 @@ export type RawChannelMessageEvent = BusinessData<
   )
 >;
 
-export interface ChannelMessageEvent {
-  data: RawChannelMessageEvent;
+export interface ChannelMessageEvent<T extends MessageType = MessageType> {
+  data: RawChannelMessageEvent & { eventBody: { messageType: T } };
 }
 
+// type EventType = keyof typeof MessageType;
+// type EventMap<
+//   K extends EventType = EventType,
+//   M extends typeof MessageType[K] = typeof MessageType[K]
+// > = {
+//   [key in `channel.message.${string.ToLowerCase<K>}`]: (
+//     data: ChannelMessageEvent<M>
+//   ) => Awaitable<void>;
+// };
 declare global {
-  interface DokoEventMap {
-    "channel.message": (data: ChannelMessageEvent) => Awaitable<void>;
+  interface DokoEventMap /* extends EventMap */ {
+    "channel.message.card": (
+      evt: ChannelMessageEvent<MessageType.Card>
+    ) => Awaitable<void>;
+    "channel.message.file": (
+      evt: ChannelMessageEvent<MessageType.File>
+    ) => Awaitable<void>;
+    "channel.message.picture": (
+      evt: ChannelMessageEvent<MessageType.Picture>
+    ) => Awaitable<void>;
+    "channel.message.share": (
+      evt: ChannelMessageEvent<MessageType.Share>
+    ) => Awaitable<void>;
+    "channel.message.text": (
+      evt: ChannelMessageEvent<MessageType.Text>
+    ) => Awaitable<void>;
+    "channel.message.video": (
+      evt: ChannelMessageEvent<MessageType.Video>
+    ) => Awaitable<void>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelMessage>((doko) => ({
   eventType: DodoEventType.ChannelMessage,
   process(evt) {
-    doko.event.emitAsync("channel.message", {
-      data: evt,
-    });
+    doko.event.emitAsync(
+      `channel.message.${MessageType[evt.eventBody.messageType].toLowerCase()}`,
+      {
+        data: evt,
+      }
+    );
   },
 }));

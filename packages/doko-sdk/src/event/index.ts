@@ -9,10 +9,8 @@ import websocket from "websocket";
 import { DodoEvent } from "../model/event/event.js";
 import { EventProcessor } from "./define.js";
 
-const { EventEmitter2 } = eventemitter2;
+const { EventEmitter2 } = eventemitter2.default;
 const { client, connection } = websocket;
-
-console.log("example emitter", new EventEmitter2());
 
 const handlers = [
   import("./channel/message.js"),
@@ -38,7 +36,10 @@ export class DokoEvent extends EventEmitter2 {
   private connection?: InstanceType<typeof connection>;
 
   constructor(private doko: Doko) {
-    super();
+    super({
+      wildcard: true,
+      delimiter: ".",
+    });
     this.initializePromise = this.initializeProcessors();
   }
 

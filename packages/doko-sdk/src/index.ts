@@ -2,6 +2,10 @@ import { DokoApi } from "./request/index.js";
 import { DokoStore } from "./store/index.js";
 import { DokoEvent } from "./event/index.js";
 
+import { loadEnv } from "./utils/env.js";
+
+loadEnv();
+
 export class Doko {
   /** doko 状态数据 */
   store = new DokoStore(this);
