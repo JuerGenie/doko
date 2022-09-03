@@ -1,0 +1,56 @@
+{
+  "name": "doko-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "node --loader ts-node/esm ./src/index.ts",
+    "start": "pnpm dev",
+    "build": "tsup",
+    "example": "node --loader ts-node/esm ./example/bot.ts"
+  },
+  "keywords": [
+    "dodo",
+    "imdodo",
+    "bot",
+    "sdk"
+  ],
+  "author": "JuerGenie",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/lodash": "^4.14.184",
+    "@types/node": "^18.7.13",
+    "@types/websocket": "^1.0.5",
+    "@vue/reactivity": "^3.2.38",
+    "@vueuse/core": "^9.1.1",
+    "axios": "^0.27.2",
+    "eventemitter2": "^6.4.7",
+    "glob": "^8.0.3",
+    "pinia": "^2.0.21",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.2.3",
+    "typescript": "^4.8.2",
+    "vue": "^3.2.38",
+    "websocket": "^1.0.34"
+  },
+  "peerDependencies": {
+    "@vue/reactivity": "^3.2.38",
+    "@vueuse/core": "^9.1.1",
+    "axios": "^0.27.2",
+    "eventemitter2": "^6.4.7",
+    "glob": "^8.0.3",
+    "pinia": "^2.0.21",
+    "vue": "^3.2.38",
+    "websocket": "^1.0.34"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
