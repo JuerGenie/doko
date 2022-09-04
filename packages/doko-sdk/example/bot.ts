@@ -3,8 +3,11 @@ import { loadEnv } from "doko-sdk/utils/env.js";
 
 loadEnv();
 
-const bot = new Doko(/** clientId */ "", /** token */ "");
-console.log("create bot", bot);
+if (!process.env.CLIENT_ID || !process.env.TOKEN) {
+  throw new Error("need env: CLIENT_ID, TOKEN");
+}
+
+const bot = new Doko(process.env.CLIENT_ID, process.env.TOKEN);
 
 // 回声姬开关
 let echo = false;
@@ -12,21 +15,17 @@ bot.event
   .on("doko.connected", () => {
     console.log("doko connected!");
   })
-  .on("channel.message", (evt) => {
+  .on("channel.message.text", (evt) => {
     console.log("receive message:", evt.data.eventBody);
-    if (evt.data.eventType === DodoEventType.ChannelMessage) {
-      if (evt.data.eventBody.messageType === MessageType.Text) {
-        const { content } = evt.data.eventBody.messageBody;
-        if (content === "rn") {
-          bot.api.channel.setChannelMessageSend({
-            channelId: evt.data.eventBody.channelId,
-            messageType: MessageType.Text,
-            messageBody: {
-              content: Math.ceil(Math.random() * 100).toFixed(0),
-            },
-          });
-        }
-      }
+    const { content } = evt.data.eventBody.messageBody;
+    if (content === "rn") {
+      bot.api.channel.setChannelMessageSend({
+        channelId: evt.data.eventBody.channelId,
+        messageType: MessageType.Text,
+        messageBody: {
+          content: Math.ceil(Math.random() * 100).toFixed(0),
+        },
+      });
     }
   })
   .on("channel.message.text", (data) => {
@@ -34,14 +33,19 @@ bot.event
     const matcher = content.match(/^echo (?<mode>on|off)$/);
     if (matcher) {
       echo = matcher.groups?.mode === "on";
-      console.log(`回声姬模式，${matcher.groups?.mode ?? "off"}！`);
-    } else {
+      bot.api.channel.setChannelMessageSend({
+        channelId: data.data.eventBody.channelId,
+        messageType: MessageType.Text,
+        messageBody: {
+          content: `回声姬模式，${matcher.groups?.mode ?? "off"}！`,
+        },
+      });
+      console.log();
+    } else if (echo) {
       bot.api.channel.setChannelMessageSend({
         channelId: data.data.eventBody.channelId,
         messageType: data.data.eventBody.messageType,
-        messageBody: {
-          content: `${data.data.eventBody.messageBody}`,
-        },
+        messageBody: data.data.eventBody.messageBody,
       });
     }
   });
