@@ -1,5 +1,11 @@
 # doko-sdk
 
+## 1.0.3
+
+### Patch Changes
+
+- 补充频道 API、文字频道 API、身份组 API、成员 API 声明。
+
 ## 1.0.2
 
 ### Patch Changes
