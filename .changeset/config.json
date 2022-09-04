@@ -3,9 +3,12 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [["doko-*"]],
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [],
+  "__experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  }
 }

@@ -1,10 +1,10 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DokoResponse } from "doko-sdk/api/index.js";
 import type {
   CardMessage,
   PictureMessage,
   TextMessage,
   VideoMessage,
-} from "../../model/event/message-data.js";
+} from "doko-sdk/model/event/message-data.js";
 import type { Axios } from "axios";
 
 /** 发送消息 */

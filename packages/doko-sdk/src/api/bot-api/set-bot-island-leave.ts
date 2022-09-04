@@ -6,7 +6,7 @@ export namespace setBotIslandLeave {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<undefined> {}
+  export interface Response extends DokoResponse<void> {}
 }
 
 export function setBotIslandLeave(

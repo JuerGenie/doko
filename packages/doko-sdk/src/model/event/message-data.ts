@@ -1,3 +1,5 @@
+import { CardMessageComponent } from "./card-message-components.js";
+
 export enum MessageType {
   Text = 1,
   Picture = 2,
@@ -50,6 +52,28 @@ export interface FileMessage {
   };
 }
 
+export enum CardMessageTheme {
+  grey,
+  red,
+  orange,
+  yellow,
+  green,
+  indigo,
+  blue,
+  purple,
+  black,
+  default,
+}
+
 export interface CardMessage {
   messageType: MessageType.Card;
+  messageBody: {
+    content?: string;
+    card: {
+      type: "card";
+      components: CardMessageComponent[];
+      theme: CardMessageTheme;
+      title?: string;
+    };
+  };
 }

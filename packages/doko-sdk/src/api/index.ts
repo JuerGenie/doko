@@ -13,3 +13,5 @@ export { EventApi } from "./event-api/index.js";
 export { BotApi } from "./bot-api/index.js";
 export { IslandApi } from "./island-api/index.js";
 export { ChannelApi } from "./channel-api/index.js";
+export { MemberApi } from "./member/index.js";
+export { RoleApi } from "./role/index.js";
