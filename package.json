@@ -5,7 +5,8 @@
   "scripts": {
     "sdk": "pnpm -F=doko-sdk",
     "bot": "pnpm -F=doko-bot",
-    "all": "pnpm -F=*"
+    "all": "pnpm -F=*",
+    "sdk:publish": "pnpm sdk publish --no-git-checks"
   },
   "keywords": [
     "dodo",

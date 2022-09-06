@@ -1,5 +1,15 @@
 # doko-sdk
 
+## 1.1.0
+
+### Minor Changes
+
+- d472324: 项目文件结构调整，更新 0.1.4 接口及事件。
+
+### Patch Changes
+
+- 修改 exports 配置及相关引用路径。
+
 ## 1.0.3
 
 ### Patch Changes
