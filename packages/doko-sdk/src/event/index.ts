@@ -1,12 +1,10 @@
-/// <reference path="./define.d.ts" />
-
 import * as eventemitter2 from "eventemitter2";
-import { DodoEventType } from "../model/event/event-type.js";
+import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import Doko from "../index.js";
 import { Awaitable } from "@vueuse/core";
-import { DodoEventData } from "../model/event/event-data.js";
+import { DodoEventData } from "./dodo-event-data.js";
 import websocket from "websocket";
-import { DodoEvent } from "../model/event/event.js";
+import { DodoEvent } from "./dodo-event.js";
 import { EventProcessor } from "./define.js";
 
 const { EventEmitter2 } = eventemitter2.default;
@@ -71,7 +69,7 @@ export class DokoEvent extends EventEmitter2 {
   /** 创建dodo事件通知流 */
   async start() {
     await this.whenReady();
-    const res = await this.doko.api.event.getWebSocketConnection();
+    const res = await this.doko.dodo.event.getWebSocketConnection();
     this.ws = new client({});
     this.ws
       .on("connect", (connection) => {
@@ -128,29 +126,19 @@ export class DokoEvent extends EventEmitter2 {
     super.once as any;
   off: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
     super.off as any;
-  // off<K extends UnknownType>(event: K, listener: UnknownHandler): this;
 
   addListener: <K extends EventType>(
     event: K,
     listener: DokoEventMap[K]
   ) => this = super.addListener as any;
-  // addListener<K extends UnknownType>(
-  //   event: K,
-  //   listener: UnknownHandler
-  // ): this;
 
   removeListener: <K extends EventType>(
     event: K,
     listener: DokoEventMap[K]
   ) => this = super.removeListener as any;
-  // removeListener<K extends UnknownType>(
-  //   event: K,
-  //   listener: UnknownHandler
-  // ): this;
 
   removeAllListeners: <K extends EventType>(event: K) => this = super
     .removeAllListeners as any;
-  // removeAllListeners<K extends UnknownType>(event: K): this;
 
   emit: <K extends EventType>(
     event: K,
@@ -160,7 +148,6 @@ export class DokoEvent extends EventEmitter2 {
     event: K,
     ...payload: Parameters<DokoEventMap[K]>
   ) => Promise<any[]> = super.emitAsync as any;
-  // emit<K extends UnknownType>(event: K, ...payload: unknown[]): boolean;
 }
 
 declare global {
@@ -175,3 +162,8 @@ declare global {
     }) => Awaitable<void>;
   }
 }
+
+export { DodoEventType } from "./dodo-event-type.js";
+export { BusinessEventData } from "./business-event-data.js";
+export { DodoEvent } from "./dodo-event.js";
+export { DodoEventData } from "./dodo-event-data.js";

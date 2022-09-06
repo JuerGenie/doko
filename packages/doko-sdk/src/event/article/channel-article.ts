@@ -5,38 +5,36 @@ import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
-export type RawChannelMessageListSubmitEvent = BusinessEventData<
-  DodoEventType.ChannelCardListSubmit,
+export type RawChannelArticleEvent = BusinessEventData<
+  DodoEventType.ChannelArticleEvent,
   {
     islandId: string;
     channelId: string;
     dodoId: string;
-    messageId: string;
     personal: PersonalModel;
     member: MemberModel;
-    /** 交互自定义ID */
-    interactCustomId: string;
-    listData: Array<{ name: string }>;
+    articleId: string;
+    title: string;
+    imageList: string[];
+    content: string;
   }
 >;
 
-export interface ChannelMessageListSubmitEvent {
-  data: RawChannelMessageListSubmitEvent;
+export interface ChannelArticleEvent {
+  data: RawChannelArticleEvent;
 }
 
 declare global {
   interface DokoEventMap {
-    "channel.card.list.submit": (
-      data: ChannelMessageListSubmitEvent
-    ) => Awaitable<void>;
+    "channel.article": (data: ChannelArticleEvent) => Awaitable<void>;
   }
 }
 
-export default defineEventProcessor<DodoEventType.ChannelCardListSubmit>(
+export default defineEventProcessor<DodoEventType.ChannelArticleEvent>(
   (doko) => ({
-    eventType: DodoEventType.ChannelCardListSubmit,
+    eventType: DodoEventType.ChannelArticleEvent,
     process(evt) {
-      doko.event.emitAsync("channel.card.list.submit", {
+      doko.event.emitAsync("channel.article", {
         data: evt,
       });
     },

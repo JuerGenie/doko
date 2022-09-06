@@ -1,26 +1,26 @@
 import {
-  ReactionEmoji,
-  ReactionTarget,
+  ReactionEmojiModel,
+  ReactionTargetModel,
   ReactionType,
-} from "../../model/data/reaction.js";
-import { Member } from "../../model/data/member.js";
-import { Personal } from "../../model/data/personal.js";
-import { BusinessData } from "../../model/event/event-data.js";
-import { DodoEventType } from "../../model/event/event-type.js";
+} from "doko-sdk/model/reaction.js";
+import { MemberModel } from "doko-sdk/model/member.js";
+import { PersonalModel } from "doko-sdk/model/personal.js";
+import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
+import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import { defineEventProcessor } from "../define.js";
 import { Awaitable } from "@vueuse/core";
 
-export type RawChannelMessageReactionEvent = BusinessData<
+export type RawChannelMessageReactionEvent = BusinessEventData<
   DodoEventType.ChannelMessageReaction,
   {
     islandId: string;
     channelId: string;
     dodoId: string;
     messageId: string;
-    personal: Personal;
-    member: Member;
-    reactionTarget: ReactionTarget;
-    reactionEmoji: ReactionEmoji;
+    personal: PersonalModel;
+    member: MemberModel;
+    reactionTarget: ReactionTargetModel;
+    reactionEmoji: ReactionEmojiModel;
     reactionType: ReactionType;
   }
 >;

@@ -1,3 +1,11 @@
-export * as api from "./api/index.js";
-export * as data from "./data/index.js";
-export * as event from "./event/index.js";
+export * from "./bot.js";
+export * from "./card-components.js";
+export * from "./channel.js";
+export * from "./emoji.js";
+export * from "./island.js";
+export * from "./member.js";
+export * from "./message.js";
+export * from "./personal.js";
+export * from "./reaction.js";
+export * from "./reference-message.js";
+export * from "./role.js";

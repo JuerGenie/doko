@@ -1,19 +1,19 @@
-import { Personal } from "../../model/data/personal.js";
-import { BusinessData } from "../../model/event/event-data.js";
-import { DodoEventType } from "../../model/event/event-type.js";
+import { PersonalModel } from "doko-sdk/model/personal.js";
+import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
+import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import {
   PictureMessage,
   TextMessage,
   VideoMessage,
-} from "../../model/event/message-data.js";
+} from "doko-sdk/model/message.js";
 import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
-export type RawPersonalMessageEvent = BusinessData<
+export type RawPersonalMessageEvent = BusinessEventData<
   DodoEventType.PersonalMessage,
   {
     dodoId: string;
-    personal: Personal;
+    personal: PersonalModel;
     messageId: string;
   } & (TextMessage | PictureMessage | VideoMessage)
 >;

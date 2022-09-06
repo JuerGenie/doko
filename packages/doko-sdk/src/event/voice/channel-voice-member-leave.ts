@@ -3,14 +3,10 @@ import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
 import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
+import { MemberLeaveType } from "../member/member-leave.js";
 
-export enum MemberLeaveType {
-  Active = 1,
-  Passive = 2,
-}
-
-export type RawIslandMemberLeaveEvent = BusinessEventData<
-  DodoEventType.IslandMemberLeave,
+export type RawChannelVoiceMemberLeaveEvent = BusinessEventData<
+  DodoEventType.ChannelVoiceMemberLeave,
   {
     islandId: string;
     dodoId: string;
@@ -21,21 +17,23 @@ export type RawIslandMemberLeaveEvent = BusinessEventData<
   }
 >;
 
-export interface IslandMemberLeaveEvent {
-  data: RawIslandMemberLeaveEvent;
+export interface ChannelVoiceMemberLeaveEvent {
+  data: RawChannelVoiceMemberLeaveEvent;
 }
 
 declare global {
   interface DokoEventMap {
-    "member.leave": (data: IslandMemberLeaveEvent) => Awaitable<void>;
+    "channel.voice.member.leave": (
+      evt: ChannelVoiceMemberLeaveEvent
+    ) => Awaitable<void>;
   }
 }
 
-export default defineEventProcessor<DodoEventType.IslandMemberLeave>(
+export default defineEventProcessor<DodoEventType.ChannelVoiceMemberLeave>(
   (doko) => ({
-    eventType: DodoEventType.IslandMemberLeave,
+    eventType: DodoEventType.ChannelVoiceMemberLeave,
     process(evt) {
-      doko.event.emitAsync("member.leave", {
+      doko.event.emitAsync(`channel.voice.member.leave`, {
         data: evt,
       });
     },

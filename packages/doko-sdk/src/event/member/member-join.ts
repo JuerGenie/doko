@@ -1,10 +1,10 @@
-import { BusinessData } from "../../model/event/event-data.js";
-import { DodoEventType } from "../../model/event/event-type.js";
+import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
+import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
 import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
-export type RawMemberJoinEvent = BusinessData<
-  DodoEventType.MemberJoin,
+export type RawIslandMemberJoinEvent = BusinessEventData<
+  DodoEventType.IslandMemberJoin,
   {
     islandId: string;
     dodoId: string;
@@ -13,7 +13,7 @@ export type RawMemberJoinEvent = BusinessData<
 >;
 
 export interface MemberJoinEvent {
-  data: RawMemberJoinEvent;
+  data: RawIslandMemberJoinEvent;
 }
 
 declare global {
@@ -22,8 +22,8 @@ declare global {
   }
 }
 
-export default defineEventProcessor<DodoEventType.MemberJoin>((doko) => ({
-  eventType: DodoEventType.MemberJoin,
+export default defineEventProcessor<DodoEventType.IslandMemberJoin>((doko) => ({
+  eventType: DodoEventType.IslandMemberJoin,
   process(evt) {
     doko.event.emitAsync("member.join", {
       data: evt,

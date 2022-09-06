@@ -11,6 +11,22 @@
     "./*": {
       "default": "./dist/*",
       "import": "./src/*"
+    },
+    "./model": {
+      "default": "./dist/model/index.js",
+      "import": "./src/model/index.ts"
+    },
+    "./model/*": {
+      "default": "./dist/model/*",
+      "import": "./src/model/*"
+    },
+    "./request": {
+      "default": "./dist/request/index.js",
+      "import": "./src/request/index.ts"
+    },
+    "./request/*": {
+      "default": "./dist/request/*",
+      "import": "./src/request/*"
     }
   },
   "scripts": {

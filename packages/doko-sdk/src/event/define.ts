@@ -1,5 +1,7 @@
 import { Awaitable } from "@vueuse/core";
-import Doko, { DodoEventType, DodoEventData } from "../index.js";
+import Doko from "../index.js";
+import { DodoEventData } from "./dodo-event-data.js";
+import { DodoEventType } from "./dodo-event-type.js";
 
 export abstract class EventProcessor<
   T extends DodoEventType = DodoEventType,
@@ -21,4 +23,8 @@ export function defineEventProcessor<
   F extends EventProcessorFactor<T> = EventProcessorFactor<T>
 >(factor: F) {
   return factor;
+}
+
+declare global {
+  export interface DokoEventMap extends Record<string, (...args: any) => any> {}
 }
