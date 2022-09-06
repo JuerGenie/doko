@@ -1,5 +1,5 @@
 import { DodoEventData } from "./dodo-event-data.js";
-import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
+import { DodoEventType } from "./dodo-event-type.js";
 
 export enum DodoDataType {
   BusinessData = 0,

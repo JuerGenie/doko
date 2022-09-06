@@ -5,28 +5,22 @@
   "type": "module",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
-      "import": "./src/index.ts"
+      "default": "./dist/index.js"
     },
     "./*": {
-      "default": "./dist/*",
-      "import": "./src/*"
+      "default": "./dist/*"
     },
     "./model": {
-      "default": "./dist/model/index.js",
-      "import": "./src/model/index.ts"
+      "default": "./dist/model/index.js"
     },
     "./model/*": {
-      "default": "./dist/model/*",
-      "import": "./src/model/*"
+      "default": "./dist/model/*"
     },
     "./request": {
-      "default": "./dist/request/index.js",
-      "import": "./src/request/index.ts"
+      "default": "./dist/request/index.js"
     },
     "./request/*": {
-      "default": "./dist/request/*",
-      "import": "./src/request/*"
+      "default": "./dist/request/*"
     }
   },
   "scripts": {

@@ -1,5 +1,5 @@
 import type { ApiResponse, DokoResponse } from "../index.js";
-import type { IslandModel } from "../../model/data/island.js";
+import type { IslandModel } from "../../model/island.js";
 import type { Axios } from "axios";
 
 /**

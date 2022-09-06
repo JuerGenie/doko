@@ -2,11 +2,11 @@ import {
   ReactionEmojiModel,
   ReactionTargetModel,
   ReactionType,
-} from "doko-sdk/model/reaction.js";
-import { MemberModel } from "doko-sdk/model/member.js";
-import { PersonalModel } from "doko-sdk/model/personal.js";
-import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
-import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
+} from "../../model/reaction.js";
+import { MemberModel } from "../../model/member.js";
+import { PersonalModel } from "../../model/personal.js";
+import { BusinessEventData } from "../../event/business-event-data.js";
+import { DodoEventType } from "../../event/dodo-event-type.js";
 import { defineEventProcessor } from "../define.js";
 import { Awaitable } from "@vueuse/core";
 

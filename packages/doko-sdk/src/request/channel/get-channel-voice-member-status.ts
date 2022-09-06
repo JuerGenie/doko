@@ -1,7 +1,7 @@
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
-import type { SwitchStatus } from "doko-sdk/model/switch-status.js";
-import type { MicSortStatus } from "doko-sdk/model/mic-sort-status.js";
+import type { SwitchStatus } from "../../model/switch-status.js";
+import type { MicSortStatus } from "../../model/mic-sort-status.js";
 
 /**
  * 获取成员语音频道状态

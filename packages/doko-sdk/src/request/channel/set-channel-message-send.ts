@@ -4,7 +4,7 @@ import type {
   PictureMessage,
   TextMessage,
   VideoMessage,
-} from "doko-sdk/model/event/message-data.js";
+} from "../../model/message.js";
 import type { Axios } from "axios";
 
 /** 发送消息 */

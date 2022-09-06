@@ -1,4 +1,4 @@
-import type { RoleModel } from "doko-sdk/model/data/role.js";
+import type { RoleModel } from "../../model/role.js";
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
 

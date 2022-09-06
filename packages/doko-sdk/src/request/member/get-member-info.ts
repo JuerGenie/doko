@@ -1,4 +1,4 @@
-import type { MemberModel } from "doko-sdk/model/data/member.js";
+import type { MemberModel } from "../../model/member.js";
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
 

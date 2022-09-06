@@ -1,5 +1,5 @@
 import type { ApiResponse, DokoResponse } from "../index.js";
-import type { ChannelModel } from "doko-sdk/index.js";
+import type { ChannelModel } from "../../index.js";
 import type { Axios } from "axios";
 
 /**  */

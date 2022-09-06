@@ -1,6 +1,6 @@
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
-import type { ChannelModel, ChannelType } from "doko-sdk";
+import type { ChannelModel, ChannelType } from "../../index.js";
 
 /**
  * 创建频道

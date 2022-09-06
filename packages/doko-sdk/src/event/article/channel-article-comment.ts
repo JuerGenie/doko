@@ -1,7 +1,7 @@
-import { MemberModel } from "doko-sdk/model/member.js";
-import { PersonalModel } from "doko-sdk/model/personal.js";
-import { BusinessEventData } from "doko-sdk/event/business-event-data.js";
-import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
+import { MemberModel } from "../../model/member.js";
+import { PersonalModel } from "../../model/personal.js";
+import { BusinessEventData } from "../../event/business-event-data.js";
+import { DodoEventType } from "../../event/dodo-event-type.js";
 import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 

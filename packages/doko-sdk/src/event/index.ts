@@ -1,5 +1,5 @@
 import * as eventemitter2 from "eventemitter2";
-import { DodoEventType } from "doko-sdk/event/dodo-event-type.js";
+import { DodoEventType } from "./dodo-event-type.js";
 import Doko from "../index.js";
 import { Awaitable } from "@vueuse/core";
 import { DodoEventData } from "./dodo-event-data.js";

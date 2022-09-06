@@ -1,5 +1,5 @@
 import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Island } from "../../model/data/island.js";
+import type { IslandModel } from "../../model/island.js";
 import type { Axios } from "axios";
 
 /** 获取群信息 */
@@ -7,7 +7,7 @@ export namespace getIslandInfo {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<Island> {}
+  export interface Response extends DokoResponse<IslandModel> {}
 }
 
 export function getIslandInfo(

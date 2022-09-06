@@ -1,4 +1,4 @@
-import { BotModel } from "doko-sdk/model/bot.js";
+import { BotModel } from "../../model/bot.js";
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
 

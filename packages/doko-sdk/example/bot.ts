@@ -1,5 +1,5 @@
-import { DodoEventType, Doko, MessageType } from "doko-sdk";
-import { loadEnv } from "doko-sdk/utils/env.js";
+import { DodoEventType, Doko, MessageType } from "../src/index.js";
+import { loadEnv } from "../src/utils/env.js";
 
 loadEnv();
 
@@ -8,7 +8,10 @@ if (!process.env.CLIENT_ID || !process.env.TOKEN) {
 }
 
 // 创建机器人实例
-const bot = new Doko(process.env.CLIENT_ID, process.env.TOKEN);
+const bot = new Doko({
+  clientId: process.env.CLIENT_ID,
+  token: process.env.TOKEN,
+});
 
 // 回声姬开关
 let echo = false;
@@ -33,7 +36,7 @@ bot.event
     const matcher = content.match(/^echo (?<mode>on|off)$/); // 如果输入的文本是特定指令，做处理
     if (matcher) {
       echo = matcher.groups?.mode === "on";
-      bot.api.channel.setChannelMessageSend({
+      bot.dodo.channel.setChannelMessageSend({
         channelId: data.data.eventBody.channelId,
         messageType: MessageType.Text,
         messageBody: {
@@ -42,7 +45,7 @@ bot.event
       });
     } else if (echo) {
       // 若开关被打开，复读每条文本消息√
-      bot.api.channel.setChannelMessageSend({
+      bot.dodo.channel.setChannelMessageSend({
         channelId: data.data.eventBody.channelId,
         messageType: data.data.eventBody.messageType,
         messageBody: data.data.eventBody.messageBody,

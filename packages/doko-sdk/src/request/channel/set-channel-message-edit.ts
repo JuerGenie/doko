@@ -5,7 +5,7 @@ import type {
   ShareMessage,
   TextMessage,
   VideoMessage,
-} from "doko-sdk";
+} from "../../index.js";
 import type { ApiResponse, DokoResponse } from "../index.js";
 import type { Axios } from "axios";
 
