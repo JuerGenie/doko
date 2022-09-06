@@ -1,5 +1,15 @@
 # doko-sdk
 
+## 1.2.0
+
+### Minor Changes
+
+- 将 DokoEvent 迁移至 DokoHook，提供 hook 机制，以及更好的类型提示。
+
+### Patch Changes
+
+- 修改 DokoEvent 的类型声明，用以解决 dts 类型声明文件构建问题。
+
 ## 1.1.0
 
 ### Minor Changes
