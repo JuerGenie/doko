@@ -23,7 +23,47 @@ const handlers = [
 
 type EventType = keyof DokoEventMap;
 
-export class DokoEvent extends EventEmitter2 {
+interface DokoEventInterface {
+  on: <K extends EventType>(
+    event: K,
+    listener: DokoEventMap[K],
+    options?: eventemitter2.OnOptions
+  ) => this | eventemitter2.Listener;
+  once: <K extends EventType>(
+    event: K,
+    listener: DokoEventMap[K],
+    options?: eventemitter2.OnOptions
+  ) => this | eventemitter2.Listener;
+  off: <K extends EventType>(
+    event: K,
+    listener: DokoEventMap[K],
+    options?: eventemitter2.OnOptions
+  ) => this | eventemitter2.Listener;
+
+  addListener: <K extends EventType>(
+    event: K,
+    listener: DokoEventMap[K],
+    options?: eventemitter2.OnOptions
+  ) => this | eventemitter2.Listener;
+
+  removeListener: <K extends EventType>(
+    event: K,
+    listener: DokoEventMap[K]
+  ) => this;
+
+  removeAllListeners: <K extends EventType>(event: K) => this;
+
+  emit: <K extends EventType>(
+    event: K,
+    ...payload: Parameters<DokoEventMap[K]>
+  ) => boolean;
+  emitAsync: <K extends EventType>(
+    event: K,
+    ...payload: Parameters<DokoEventMap[K]>
+  ) => Promise<any[]>;
+}
+
+export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
   private initializePromise: Promise<void>;
   private processorMap = new Map<
     DodoEventType,
@@ -120,34 +160,34 @@ export class DokoEvent extends EventEmitter2 {
     }
   }
 
-  on: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this = super
-    .on as any;
-  once: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
-    super.once as any;
-  off: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
-    super.off as any;
+  // on: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this = super
+  //   .on as any;
+  // once: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
+  //   super.once as any;
+  // off: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
+  //   super.off as any;
 
-  addListener: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K]
-  ) => this = super.addListener as any;
+  // addListener: <K extends EventType>(
+  //   event: K,
+  //   listener: DokoEventMap[K]
+  // ) => this = super.addListener;
 
-  removeListener: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K]
-  ) => this = super.removeListener as any;
+  // removeListener: <K extends EventType>(
+  //   event: K,
+  //   listener: DokoEventMap[K]
+  // ) => this = super.removeListener;
 
-  removeAllListeners: <K extends EventType>(event: K) => this = super
-    .removeAllListeners as any;
+  // removeAllListeners: <K extends EventType>(event: K) => this = super
+  //   .removeAllListeners;
 
-  emit: <K extends EventType>(
-    event: K,
-    ...payload: Parameters<DokoEventMap[K]>
-  ) => boolean = super.emit as any;
-  emitAsync: <K extends EventType>(
-    event: K,
-    ...payload: Parameters<DokoEventMap[K]>
-  ) => Promise<any[]> = super.emitAsync as any;
+  // emit: <K extends EventType>(
+  //   event: K,
+  //   ...payload: Parameters<DokoEventMap[K]>
+  // ) => boolean = super.emit;
+  // emitAsync: <K extends EventType>(
+  //   event: K,
+  //   ...payload: Parameters<DokoEventMap[K]>
+  // ) => Promise<any[]> = super.emitAsync;
 }
 
 declare global {
