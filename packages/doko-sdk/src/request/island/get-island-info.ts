@@ -1,6 +1,6 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { IslandModel } from "../../model/island.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { IslandModel } from "../../model/island.js";
+import { Axios } from "axios";
 
 /** 获取群信息 */
 export namespace getIslandInfo {

@@ -1,4 +1,4 @@
-import type {
+import {
   CardMessage,
   FileMessage,
   PictureMessage,
@@ -6,8 +6,8 @@ import type {
   TextMessage,
   VideoMessage,
 } from "../../index.js";
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /**
  * 编辑消息

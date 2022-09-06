@@ -13,4 +13,5 @@ export default defineConfig({
   format: ["esm", "cjs"],
   external: Object.keys(pkg.peerDependencies),
   clean: true,
+  treeshake: true,
 });

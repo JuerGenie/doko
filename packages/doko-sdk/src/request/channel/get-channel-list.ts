@@ -1,6 +1,6 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { ChannelModel } from "../../index.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { ChannelModel } from "../../index.js";
+import { Axios } from "axios";
 
 /**  */
 export namespace getChannelList {

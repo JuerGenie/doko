@@ -1,11 +1,11 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type {
+import { ApiResponse, DokoResponse } from "../index.js";
+import {
   CardMessage,
   PictureMessage,
   TextMessage,
   VideoMessage,
 } from "../../model/message.js";
-import type { Axios } from "axios";
+import { Axios } from "axios";
 
 /** 发送消息 */
 export namespace setChannelMessageSend {

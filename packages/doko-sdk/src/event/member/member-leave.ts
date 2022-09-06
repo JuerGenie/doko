@@ -1,7 +1,7 @@
 import { PersonalModel } from "../../model/personal.js";
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
+import { EventHook, createEventHook } from "@vueuse/shared";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
 export enum MemberLeaveType {
@@ -25,19 +25,17 @@ export interface IslandMemberLeaveEvent {
   data: RawIslandMemberLeaveEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "member.leave": (data: IslandMemberLeaveEvent) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "island.member.leave": EventHook<IslandMemberLeaveEvent>;
   }
 }
 
-export default defineEventProcessor<DodoEventType.IslandMemberLeave>(
-  (doko) => ({
+export default defineEventProcessor<DodoEventType.IslandMemberLeave>((doko) => {
+  return {
     eventType: DodoEventType.IslandMemberLeave,
     process(evt) {
-      doko.event.emitAsync("member.leave", {
-        data: evt,
-      });
+      doko.hook.getHook("island.member.leave").trigger({ data: evt });
     },
-  })
-);
+  };
+});

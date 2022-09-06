@@ -1,6 +1,6 @@
-import type { RoleModel } from "../../model/role.js";
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { RoleModel } from "../../model/role.js";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /**
  * 创建身份组

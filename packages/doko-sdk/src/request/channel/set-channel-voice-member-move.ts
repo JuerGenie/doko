@@ -1,5 +1,5 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /**
  * 移动语音频道成员

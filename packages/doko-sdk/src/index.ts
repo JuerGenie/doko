@@ -1,6 +1,6 @@
 import { Dodo } from "./request/index.js";
 import { DokoStore } from "./store/index.js";
-import { DokoEvent } from "./event/index.js";
+import { DokoHook } from "./event/index.js";
 
 import { loadEnv } from "./utils/env.js";
 
@@ -18,7 +18,7 @@ export class Doko {
   store = new DokoStore(this);
   /** doko api 对象 */
   /** doko 事件对象 */
-  event = new DokoEvent(this);
+  hook = new DokoHook(this);
   /** dodo 底层 api 对象 */
   dodo = new Dodo(this);
 
@@ -33,7 +33,7 @@ export class Doko {
 
   /** 尝试连接到dodo，并开始处理事件 */
   start() {
-    return this.event.start();
+    return this.hook.start();
   }
 
   get<K extends keyof DokoOptions>(key: K) {
@@ -43,8 +43,8 @@ export class Doko {
 
 export default Doko;
 export * from "./request/index.js";
-export * as request from "./request/index.js";
 export * from "./model/index.js";
-export * as model from "./model/index.js";
 export * from "./event/index.js";
-export * as event from "./event/index.js";
+
+export interface CustomHook {}
+export interface PresetHook {}

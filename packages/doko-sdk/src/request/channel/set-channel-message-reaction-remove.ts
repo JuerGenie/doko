@@ -1,6 +1,6 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
-import type { Emoji } from "../../index.js";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
+import { Emoji } from "../../index.js";
 
 /**
  * 取消表情反应

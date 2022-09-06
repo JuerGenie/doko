@@ -1,6 +1,6 @@
 import { BotModel } from "../../model/bot.js";
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /** 获取WebSocket连接 */
 export namespace getBotInfo {

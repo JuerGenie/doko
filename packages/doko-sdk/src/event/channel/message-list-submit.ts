@@ -1,8 +1,8 @@
 import { MemberModel } from "../../model/member.js";
 import { PersonalModel } from "../../model/personal.js";
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
+import { EventHook } from "@vueuse/shared";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
 export type RawChannelMessageListSubmitEvent = BusinessEventData<
@@ -24,21 +24,19 @@ export interface ChannelMessageListSubmitEvent {
   data: RawChannelMessageListSubmitEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "channel.card.list.submit": (
-      data: ChannelMessageListSubmitEvent
-    ) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "channel.card.list.submit": EventHook<ChannelMessageListSubmitEvent>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelCardListSubmit>(
-  (doko) => ({
-    eventType: DodoEventType.ChannelCardListSubmit,
-    process(evt) {
-      doko.event.emitAsync("channel.card.list.submit", {
-        data: evt,
-      });
-    },
-  })
+  (doko) => {
+    return {
+      eventType: DodoEventType.ChannelCardListSubmit,
+      process(evt) {
+        doko.hook.getHook("channel.card.list.submit").trigger({ data: evt });
+      },
+    };
+  }
 );

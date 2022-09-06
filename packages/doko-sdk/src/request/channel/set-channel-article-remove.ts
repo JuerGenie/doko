@@ -1,5 +1,5 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /**
  * 删除帖子评论回复

@@ -1,9 +1,9 @@
 import { MemberModel } from "../../model/member.js";
 import { PersonalModel } from "../../model/personal.js";
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
+import { EventHook } from "@vueuse/shared";
 
 export type RawChannelArticleCommentEvent = BusinessEventData<
   DodoEventType.ChannelArticleCommentEvent,
@@ -30,21 +30,19 @@ export interface ChannelArticleCommentEvent {
   data: RawChannelArticleCommentEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "channel.article.comment": (
-      data: ChannelArticleCommentEvent
-    ) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "channel.article.comment": EventHook<ChannelArticleCommentEvent>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelArticleCommentEvent>(
-  (doko) => ({
-    eventType: DodoEventType.ChannelArticleCommentEvent,
-    process(evt) {
-      doko.event.emitAsync("channel.article.comment", {
-        data: evt,
-      });
-    },
-  })
+  (doko) => {
+    return {
+      eventType: DodoEventType.ChannelArticleCommentEvent,
+      process(evt) {
+        doko.hook.getHook("channel.article.comment").trigger({ data: evt });
+      },
+    };
+  }
 );

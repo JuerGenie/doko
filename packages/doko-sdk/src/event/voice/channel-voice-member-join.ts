@@ -1,6 +1,6 @@
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
+import { EventHook, createEventHook } from "@vueuse/shared";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
 export type RawChannelVoiceMemberJoinEvent = BusinessEventData<
@@ -16,21 +16,19 @@ export interface ChannelVoiceMemberJoinEvent {
   data: RawChannelVoiceMemberJoinEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "channel.voice.member.join": (
-      evt: ChannelVoiceMemberJoinEvent
-    ) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "channel.voice.member.join": EventHook<ChannelVoiceMemberJoinEvent>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelVoiceMemberJoin>(
-  (doko) => ({
-    eventType: DodoEventType.ChannelVoiceMemberJoin,
-    process(evt) {
-      doko.event.emitAsync(`channel.voice.member.join`, {
-        data: evt,
-      });
-    },
-  })
+  (doko) => {
+    return {
+      eventType: DodoEventType.ChannelVoiceMemberJoin,
+      process(evt) {
+        doko.hook.getHook("channel.voice.member.join").trigger({ data: evt });
+      },
+    };
+  }
 );

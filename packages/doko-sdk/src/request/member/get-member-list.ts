@@ -1,6 +1,6 @@
-import type { MemberModel } from "../../model/member.js";
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
+import { MemberModel } from "../../model/member.js";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
 
 /**
  * 获取成员列表

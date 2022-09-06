@@ -1,21 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ESNext"],
+    "lib": ["ES2020", "DOM"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "doko-sdk": ["./src/index.ts"]
+    },
     "types": ["node"],
     "outDir": "./dist",
     "rootDir": "./",
     "esModuleInterop": true,
     "strict": true,
     "keyofStringsOnly": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "include": ["src", "example"],
-  "exclude": ["./node_modules", "./dist/**/*.d.ts"]
+  "exclude": ["node_modules", "dist"]
 }

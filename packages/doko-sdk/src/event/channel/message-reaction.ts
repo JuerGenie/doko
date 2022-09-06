@@ -5,10 +5,10 @@ import {
 } from "../../model/reaction.js";
 import { MemberModel } from "../../model/member.js";
 import { PersonalModel } from "../../model/personal.js";
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
+import { EventHook } from "@vueuse/shared";
 import { DodoEventType } from "../../event/dodo-event-type.js";
 import { defineEventProcessor } from "../define.js";
-import { Awaitable } from "@vueuse/core";
 
 export type RawChannelMessageReactionEvent = BusinessEventData<
   DodoEventType.ChannelMessageReaction,
@@ -29,19 +29,19 @@ export interface ChannelMessageReactionEvent {
   data: RawChannelMessageReactionEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "channel.reaction": (data: ChannelMessageReactionEvent) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "channel.reaction": EventHook<ChannelMessageReactionEvent>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelMessageReaction>(
-  (doko) => ({
-    eventType: DodoEventType.ChannelMessageReaction,
-    process(evt) {
-      doko.event.emitAsync("channel.reaction", {
-        data: evt,
-      });
-    },
-  })
+  (doko) => {
+    return {
+      eventType: DodoEventType.ChannelMessageReaction,
+      process(evt) {
+        doko.hook.getHook("channel.reaction").trigger({ data: evt });
+      },
+    };
+  }
 );

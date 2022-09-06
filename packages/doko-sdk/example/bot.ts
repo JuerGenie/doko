@@ -16,19 +16,11 @@ const bot = new Doko({
 // 回声姬开关
 let echo = false;
 
-bot.event.on("doko.connected", () => {
+bot.hook.on("doko.connected", () => {
   // 监听连接事件，由Doko发出，所有Doko事件存放于`doko.*`命名空间之下。
   console.log("doko connected!");
 });
-bot.event.on("channel.message.*", (evt) => {
-  // 监听所有消息事件
-  console.log("receive message:", evt.data.eventBody);
-  if (evt.data.eventType === DodoEventType.ChannelMessageReaction) {
-    // 若事件是消息表情反馈事件，做一些处理
-    console.log("消息被标记了！");
-  }
-});
-bot.event.on("channel.message.text", (data) => {
+bot.hook.on("channel.message.text", (data) => {
   // 监听特定类型（文本类型）的消息事件
   const { content } = data.data.eventBody.messageBody;
 

@@ -1,6 +1,6 @@
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
+import { EventHook } from "@vueuse/shared";
 import { defineEventProcessor } from "../define.js";
 
 export type RawIslandMemberJoinEvent = BusinessEventData<
@@ -12,21 +12,21 @@ export type RawIslandMemberJoinEvent = BusinessEventData<
   }
 >;
 
-export interface MemberJoinEvent {
+export interface IslandMemberJoinEvent {
   data: RawIslandMemberJoinEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "member.join": (data: MemberJoinEvent) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "island.member.join": EventHook<IslandMemberJoinEvent>;
   }
 }
 
-export default defineEventProcessor<DodoEventType.IslandMemberJoin>((doko) => ({
-  eventType: DodoEventType.IslandMemberJoin,
-  process(evt) {
-    doko.event.emitAsync("member.join", {
-      data: evt,
-    });
-  },
-}));
+export default defineEventProcessor<DodoEventType.IslandMemberJoin>((doko) => {
+  return {
+    eventType: DodoEventType.IslandMemberJoin,
+    process(evt) {
+      doko.hook.getHook("island.member.join").trigger({ data: evt });
+    },
+  };
+});

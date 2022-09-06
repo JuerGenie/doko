@@ -1,6 +1,6 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
-import type { Axios } from "axios";
-import type { ChannelModel } from "../../index.js";
+import { ApiResponse, DokoResponse } from "../index.js";
+import { Axios } from "axios";
+import { ChannelModel } from "../../index.js";
 
 /** 获取频道信息 */
 export namespace getChannelInfo {

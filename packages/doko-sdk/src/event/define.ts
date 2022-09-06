@@ -24,7 +24,3 @@ export function defineEventProcessor<
 >(factor: F) {
   return factor;
 }
-
-declare global {
-  export interface DokoEventMap extends Record<string, (...args: any) => any> {}
-}

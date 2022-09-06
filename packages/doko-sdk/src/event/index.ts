@@ -1,83 +1,83 @@
-import * as eventemitter2 from "eventemitter2";
 import { DodoEventType } from "./dodo-event-type.js";
-import Doko from "../index.js";
-import { Awaitable } from "@vueuse/core";
 import { DodoEventData } from "./dodo-event-data.js";
+import { DodoDataType } from "./dodo-event.js";
+import Doko, { CustomHook, PresetHook } from "../index.js";
 import websocket from "websocket";
 import { DodoEvent } from "./dodo-event.js";
 import { EventProcessor } from "./define.js";
+import { Awaitable, createEventHook, EventHook } from "@vueuse/shared";
 
-const { EventEmitter2 } = eventemitter2.default;
+import channelArticleComment from "./article/channel-article-comment.js";
+import channelArticle from "./article/channel-article.js";
+import messageButtonClick from "./channel/message-button-click.js";
+import messageFormSubmit from "./channel/message-form-submit.js";
+import messageListSubmit from "./channel/message-list-submit.js";
+import messageReaction from "./channel/message-reaction.js";
+import message from "./channel/message.js";
+import memberJoin from "./member/member-join.js";
+import memberLeave from "./member/member-leave.js";
+import personalMessage from "./personal/personal-message.js";
+import channelVoiceMemberJoin from "./voice/channel-voice-member-join.js";
+import channelVoiceMemberLeave from "./voice/channel-voice-member-leave.js";
+
 const { client, connection } = websocket;
 
 const handlers = [
-  import("./channel/message.js"),
-  import("./channel/message-button-click.js"),
-  import("./channel/message-form-submit.js"),
-  import("./channel/message-list-submit.js"),
-  import("./channel/message-reaction.js"),
-  import("./member/member-join.js"),
-  import("./member/member-leave.js"),
-  import("./personal/personal-message.js"),
+  channelArticleComment,
+  channelArticle,
+  messageButtonClick,
+  messageFormSubmit,
+  messageListSubmit,
+  messageReaction,
+  message,
+  memberJoin,
+  memberLeave,
+  personalMessage,
+  channelVoiceMemberJoin,
+  channelVoiceMemberLeave,
 ];
 
-type EventType = keyof DokoEventMap;
+export type PresetHookType = keyof PresetHook;
+export type CustomHookType = keyof CustomHook;
+export type HookParameter<T extends EventHook> = T extends EventHook<infer R>
+  ? R
+  : never;
+export type HookHandler<T extends PresetHookType | CustomHookType> = (
+  payload: HookParameter<(PresetHook & CustomHook)[T]>
+) => void;
 
-interface DokoEventInterface {
-  on: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K],
-    options?: eventemitter2.OnOptions
-  ) => this | eventemitter2.Listener;
-  once: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K],
-    options?: eventemitter2.OnOptions
-  ) => this | eventemitter2.Listener;
-  off: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K],
-    options?: eventemitter2.OnOptions
-  ) => this | eventemitter2.Listener;
-
-  addListener: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K],
-    options?: eventemitter2.OnOptions
-  ) => this | eventemitter2.Listener;
-
-  removeListener: <K extends EventType>(
-    event: K,
-    listener: DokoEventMap[K]
-  ) => this;
-
-  removeAllListeners: <K extends EventType>(event: K) => this;
-
-  emit: <K extends EventType>(
-    event: K,
-    ...payload: Parameters<DokoEventMap[K]>
-  ) => boolean;
-  emitAsync: <K extends EventType>(
-    event: K,
-    ...payload: Parameters<DokoEventMap[K]>
-  ) => Promise<any[]>;
+declare module "doko-sdk" {
+  interface PresetHook {
+    "doko.error": EventHook<Error>;
+    "doko.connected": EventHook<InstanceType<typeof connection>>;
+    "doko.disconnected": EventHook<{
+      code: number;
+      desc: string;
+    }>;
+  }
 }
 
-export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
+export class DokoHook {
   private initializePromise: Promise<void>;
   private processorMap = new Map<
     DodoEventType,
     EventProcessor<DodoEventType>[]
   >();
 
+  private presetHooks: PresetHook = {
+    "doko.connected": createEventHook<InstanceType<typeof connection>>(),
+    "doko.disconnected": createEventHook<{
+      code: number;
+      desc: string;
+    }>(),
+    "doko.error": createEventHook<Error>(),
+  };
+  private customHooks: CustomHook = {} as CustomHook;
+
   private ws?: InstanceType<typeof client>;
   private connection?: InstanceType<typeof connection>;
 
   constructor(private doko: Doko) {
-    super({
-      wildcard: true,
-      delimiter: ".",
-    });
     this.initializePromise = this.initializeProcessors();
   }
 
@@ -85,9 +85,8 @@ export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
     await Promise.all(
       handlers.map(async (handler) => {
         try {
-          const mod = await handler;
-          if (typeof mod.default === "function") {
-            const processor = (await mod.default(
+          if (typeof handler === "function") {
+            const processor = (await handler(
               this.doko
             )) as EventProcessor<DodoEventType>;
             if (!this.processorMap.has(processor.eventType)) {
@@ -114,7 +113,7 @@ export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
     this.ws
       .on("connect", (connection) => {
         this.connection = connection;
-        this.emit("doko.connected", this.connection);
+        this.getHook("doko.connected").trigger(this.connection);
 
         // 开始维持心跳，虽然说是30秒一次，为了避免网络波动导致的断连，此处设置为25秒。
         const heartbeatHandler = setInterval(() => {
@@ -138,11 +137,11 @@ export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
           })
           .on("close", (code, desc) => {
             clearTimeout(heartbeatHandler);
-            this.emit("doko.disconnected", { code, desc });
+            this.getHook("doko.disconnected").trigger({ code, desc });
           })
           .on("error", (err) => {
             clearTimeout(heartbeatHandler);
-            this.emit("doko.error", err);
+            this.getHook("doko.error").trigger(err);
           });
       })
       .on("connectFailed", (err) => {
@@ -160,50 +159,62 @@ export class DokoEvent extends EventEmitter2 implements DokoEventInterface {
     }
   }
 
-  // on: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this = super
-  //   .on as any;
-  // once: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
-  //   super.once as any;
-  // off: <K extends EventType>(event: K, listener: DokoEventMap[K]) => this =
-  //   super.off as any;
+  getHook<T extends PresetHookType>(hook: T): PresetHook[T];
+  getHook<T extends CustomHookType>(hook: T): CustomHook[T];
+  getHook<T extends string>(hook: T) {
+    return hook in this.presetHooks
+      ? this.presetHooks[hook as PresetHookType]
+      : (this.customHooks[hook as CustomHookType] ??= createEventHook<any>());
+  }
 
-  // addListener: <K extends EventType>(
-  //   event: K,
-  //   listener: DokoEventMap[K]
-  // ) => this = super.addListener;
-
-  // removeListener: <K extends EventType>(
-  //   event: K,
-  //   listener: DokoEventMap[K]
-  // ) => this = super.removeListener;
-
-  // removeAllListeners: <K extends EventType>(event: K) => this = super
-  //   .removeAllListeners;
-
-  // emit: <K extends EventType>(
-  //   event: K,
-  //   ...payload: Parameters<DokoEventMap[K]>
-  // ) => boolean = super.emit;
-  // emitAsync: <K extends EventType>(
-  //   event: K,
-  //   ...payload: Parameters<DokoEventMap[K]>
-  // ) => Promise<any[]> = super.emitAsync;
-}
-
-declare global {
-  interface DokoEventMap {
-    "doko.error": (err: Error) => Awaitable<void>;
-    "doko.connected": (
-      conn: InstanceType<typeof connection>
-    ) => Awaitable<void>;
-    "doko.disconnected": (info: {
-      code: number;
-      desc: string;
-    }) => Awaitable<void>;
+  on<T extends Array<PresetHookType | CustomHookType>>(
+    ...hook: [
+      ...T,
+      T extends Array<infer R>
+        ? R extends PresetHookType | CustomHookType
+          ? HookHandler<R>
+          : never
+        : never
+    ]
+  ) {
+    if (hook.length >= 2 && typeof hook.at(-1) === "function") {
+      hook.slice(0, -1).forEach((e) => {
+        this.getHook(e as PresetHookType).on(hook.at(-1) as any);
+      });
+    }
+    return this;
+  }
+  off<T extends Array<PresetHookType | CustomHookType>>(
+    ...hook: [
+      ...T,
+      T extends Array<infer R>
+        ? R extends PresetHookType | CustomHookType
+          ? HookHandler<R>
+          : never
+        : never
+    ]
+  ) {
+    if (hook.length >= 2 && typeof hook.at(-1) === "function") {
+      hook.slice(0, -1).forEach((e) => {
+        this.getHook(e as PresetHookType).off(hook.at(-1) as any);
+      });
+    }
+    return this;
   }
 }
 
-export { DodoEventType } from "./dodo-event-type.js";
-export { BusinessEventData } from "./business-event-data.js";
-export { DodoEvent } from "./dodo-event.js";
-export { DodoEventData } from "./dodo-event-data.js";
+export interface BusinessEventData<
+  D extends DodoEventType = DodoEventType,
+  B = unknown
+> {
+  /** 事件ID */
+  eventId: string;
+  /** 事件类型 */
+  eventType: D;
+  /** 事件数据 */
+  eventBody: B;
+  /** 时间戳 */
+  timestamp: number;
+}
+
+export { DodoEventType, DodoDataType };

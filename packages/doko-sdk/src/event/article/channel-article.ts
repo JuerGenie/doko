@@ -1,8 +1,8 @@
 import { MemberModel } from "../../model/member.js";
 import { PersonalModel } from "../../model/personal.js";
-import { BusinessEventData } from "../../event/business-event-data.js";
+import { BusinessEventData } from "../../event/index.js";
+import { EventHook } from "@vueuse/shared";
 import { DodoEventType } from "../../event/dodo-event-type.js";
-import { Awaitable } from "@vueuse/core";
 import { defineEventProcessor } from "../define.js";
 
 export type RawChannelArticleEvent = BusinessEventData<
@@ -24,19 +24,19 @@ export interface ChannelArticleEvent {
   data: RawChannelArticleEvent;
 }
 
-declare global {
-  interface DokoEventMap {
-    "channel.article": (data: ChannelArticleEvent) => Awaitable<void>;
+declare module "doko-sdk" {
+  interface CustomHook {
+    "channel.article": EventHook<ChannelArticleEvent>;
   }
 }
 
 export default defineEventProcessor<DodoEventType.ChannelArticleEvent>(
-  (doko) => ({
-    eventType: DodoEventType.ChannelArticleEvent,
-    process(evt) {
-      doko.event.emitAsync("channel.article", {
-        data: evt,
-      });
-    },
-  })
+  (doko) => {
+    return {
+      eventType: DodoEventType.ChannelArticleEvent,
+      process(evt) {
+        doko.hook.getHook("channel.article").trigger({ data: evt });
+      },
+    };
+  }
 );
