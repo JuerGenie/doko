@@ -1,4 +1,3 @@
-import { Awaitable } from "@vueuse/core";
 import Doko from "../index.js";
 import { DodoEventData } from "./dodo-event-data.js";
 import { DodoEventType } from "./dodo-event-type.js";

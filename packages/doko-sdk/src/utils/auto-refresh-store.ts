@@ -1,4 +1,4 @@
-import { Awaitable, useIntervalFn } from "@vueuse/core";
+import { Awaitable, useIntervalFn } from "@vueuse/shared";
 export interface AutoRefreshStore<T> {
   value: T;
   pause(): void;

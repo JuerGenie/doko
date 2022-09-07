@@ -8,7 +8,13 @@ export namespace getIslandBanList {
     pageSize: number;
     maxId: number;
   }
-  export interface Response extends DokoResponse<{ dodoId: string }[]> {}
+  export interface Response
+    extends DokoResponse<{
+      maxId: number;
+      list: {
+        dodoId: string;
+      }[];
+    }> {}
 }
 
 export function getIslandBanList(

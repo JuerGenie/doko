@@ -12,7 +12,11 @@ export namespace getMemberList {
     pageSize: number;
     maxId: number;
   }
-  export interface Response extends DokoResponse<MemberModel[]> {}
+  export interface Response
+    extends DokoResponse<{
+      maxId: number;
+      list: MemberModel[];
+    }> {}
 }
 
 export function getMemberList(
