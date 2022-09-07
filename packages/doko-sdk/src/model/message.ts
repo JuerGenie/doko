@@ -9,6 +9,7 @@ export enum MessageType {
   Card = 6,
 }
 
+/** 文本消息 */
 export interface TextMessage {
   messageType: MessageType.Text;
   messageBody: {
@@ -16,6 +17,7 @@ export interface TextMessage {
   };
 }
 
+/** 图片消息 */
 export interface PictureMessage {
   messageType: MessageType.Picture;
   messageBody: {
@@ -26,6 +28,7 @@ export interface PictureMessage {
   };
 }
 
+/** 视频消息 */
 export interface VideoMessage {
   messageType: MessageType.Video;
   messageBody: {
@@ -36,6 +39,7 @@ export interface VideoMessage {
   };
 }
 
+/** 分享消息 */
 export interface ShareMessage {
   messageType: MessageType.Share;
   messageBody: {
@@ -43,6 +47,7 @@ export interface ShareMessage {
   };
 }
 
+/** 文件消息 */
 export interface FileMessage {
   messageType: MessageType.File;
   messageBody: {
@@ -65,6 +70,7 @@ export enum CardMessageTheme {
   default,
 }
 
+/** 卡片消息 */
 export interface CardMessage {
   messageType: MessageType.Card;
   messageBody: {
@@ -77,3 +83,11 @@ export interface CardMessage {
     };
   };
 }
+
+export type DokoMessage =
+  | TextMessage
+  | PictureMessage
+  | VideoMessage
+  | ShareMessage
+  | FileMessage
+  | CardMessage;
