@@ -1,5 +1,11 @@
 # doko-sdk
 
+## 1.3.1
+
+### Patch Changes
+
+- 修改身份组实例 API 的参数声明，pick `roleId` only.
+
 ## 1.3.0
 
 ### Minor Changes
