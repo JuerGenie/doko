@@ -1,6 +1,7 @@
-import { Dodo } from "./request/index.js";
+/// <reference path="./patch.d.ts" />
+import { DodoApi } from "./core/api/index.js";
 import { DokoStore } from "./store/index.js";
-import { DokoHook } from "./event/index.js";
+import { DokoHook } from "./core/event/index.js";
 
 import { loadEnv } from "./utils/env.js";
 
@@ -16,11 +17,10 @@ export interface DokoOptions {
 export class Doko {
   /** doko 状态数据 */
   store = new DokoStore(this);
-  /** doko api 对象 */
   /** doko 事件对象 */
   hook = new DokoHook(this);
-  /** dodo 底层 api 对象 */
-  dodo = new Dodo(this);
+  /** 经过抽象的 dodo api 对象 */
+  dodo = new DodoApi(this);
 
   constructor(private options: DokoOptions) {
     const { clientId, token } = options;
@@ -39,12 +39,15 @@ export class Doko {
   get<K extends keyof DokoOptions>(key: K) {
     return this.options[key]!;
   }
+  set<K extends keyof DokoOptions>(key: K, value: DokoOptions[K]) {
+    this.options[key] = value;
+  }
 }
 
 export default Doko;
-export * from "./request/index.js";
-export * from "./model/index.js";
-export * from "./event/index.js";
+export * from "./core/api/index.js";
+export * from "./core/model/index.js";
+export * from "./core/event/index.js";
 
 export interface CustomHook {}
 export interface PresetHook {}

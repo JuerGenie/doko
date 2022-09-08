@@ -10,7 +10,6 @@
     "paths": {
       "doko-sdk": ["./src/index.ts"]
     },
-    "types": ["node"],
     "outDir": "./dist",
     "rootDir": "./",
     "esModuleInterop": true,

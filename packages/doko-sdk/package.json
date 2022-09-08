@@ -4,6 +4,14 @@
   "description": "",
   "type": "module",
   "exports": {
+    "./core": {
+      "default": "./dist/core/index.js",
+      "import": "./src/core/index.js"
+    },
+    "./core/*": {
+      "default": "./dist/core/*",
+      "import": "./src/core/*"
+    },
     ".": {
       "default": "./dist/index.js"
     },
@@ -16,18 +24,19 @@
     "./model/*": {
       "default": "./dist/model/*"
     },
-    "./request": {
-      "default": "./dist/request/index.js"
+    "./api": {
+      "default": "./dist/api/index.js"
     },
-    "./request/*": {
-      "default": "./dist/request/*"
+    "./api/*": {
+      "default": "./dist/api/*"
     }
   },
   "scripts": {
     "dev": "node --loader ts-node/esm ./src/index.ts",
     "start": "pnpm dev",
     "build": "tsup",
-    "example": "node --loader ts-node/esm ./example/bot.ts"
+    "example": "node --loader ts-node/esm ./example/bot.ts",
+    "tsr": "node --loader ts-node/esm"
   },
   "keywords": [
     "dodo",
@@ -39,12 +48,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/glob": "^8.0.0",
+    "@types/jsdom": "^20.0.0",
     "@types/lodash": "^4.14.184",
     "@types/node": "^18.7.13",
     "@types/websocket": "^1.0.5",
     "@vue/reactivity": "^3.2.38",
-    "@vueuse/core": "^9.1.1",
-    "@vueuse/shared": "^9.2.0",
     "axios": "^0.27.2",
     "pinia": "^2.0.21",
     "ts-node": "^10.9.1",
@@ -53,19 +61,19 @@
     "typescript-lodash": "^0.0.12",
     "vue": "^3.2.38"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@vue/reactivity": "^3.2.38",
-    "@vueuse/core": "^9.1.1",
     "@vueuse/shared": "^9.2.0",
     "axios": "^0.27.2",
-    "pinia": "^2.0.21",
-    "vue": "^3.2.38"
-  },
-  "dependencies": {
     "dotenv": "^16.0.2",
-    "eventemitter2": "^6.4.7",
     "glob": "^8.0.3",
+    "jsdom": "^20.0.0",
     "lodash": "^4.17.21",
+    "pinia": "^2.0.21",
+    "rxjs": "^7.5.6",
     "websocket": "^1.0.34"
+  },
+  "engines": {
+    "node": "^16.0.0"
   }
 }

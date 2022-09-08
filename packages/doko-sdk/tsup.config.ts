@@ -1,5 +1,5 @@
 import { defineConfig } from "tsup";
-import pkg from "./package.json";
+// import pkg from "./package.json";
 import glob from "glob";
 
 const entry = glob
@@ -11,7 +11,7 @@ export default defineConfig({
   entry,
   dts: true,
   format: ["esm", "cjs"],
-  external: Object.keys(pkg.peerDependencies),
+  // external: Object.keys(pkg.peerDependencies),
   clean: true,
   treeshake: true,
 });
