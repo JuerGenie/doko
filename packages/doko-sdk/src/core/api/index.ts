@@ -301,7 +301,7 @@ export class DodoApi extends Axios {
           }),
 
         /** 身份组实例API */
-        with: ({ roleId }: RoleModel) => ({
+        with: ({ roleId }: Pick<RoleModel, "roleId">) => ({
           edit: (
             params: Omit<roleApi.setRoleEdit.Request, "islandId" | "roleId">
           ) =>
