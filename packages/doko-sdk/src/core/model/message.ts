@@ -17,6 +17,10 @@ export interface TextMessage {
   };
 }
 
+export enum PictureIsOriginal {
+  No = 0,
+  Yes = 1,
+}
 /** 图片消息 */
 export interface PictureMessage {
   messageType: MessageType.Picture;
@@ -24,7 +28,7 @@ export interface PictureMessage {
     url: string;
     width: number;
     height: number;
-    isOriginal: number;
+    isOriginal?: PictureIsOriginal;
   };
 }
 

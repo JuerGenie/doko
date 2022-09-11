@@ -99,21 +99,21 @@ class Task {
               elements: [
                 {
                   type: "button",
-                  interactCustomId: "剪刀",
+                  interactCustomId: this.taskId,
                   click: { value: "jan", action: "call_back" },
                   color: "blue",
                   name: "✌️剪刀✌️",
                 },
                 {
                   type: "button",
-                  interactCustomId: "石头",
+                  interactCustomId: this.taskId,
                   click: { value: "ken", action: "call_back" },
                   color: "red",
                   name: "✊石头✊",
                 },
                 {
                   type: "button",
-                  interactCustomId: "布",
+                  interactCustomId: this.taskId,
                   click: { value: "pon", action: "call_back" },
                   color: "orange",
                   name: "✋ 布 ✋",
