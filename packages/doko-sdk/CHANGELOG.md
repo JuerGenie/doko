@@ -1,5 +1,15 @@
 # doko-sdk
 
+## 1.4.0
+
+### Minor Changes
+
+- 更新 API 命名，优化 store 初始化逻辑，添加 logger 工具，新增示例「jan-ken-pon」。
+
+### Patch Changes
+
+- 移除 cjs 输出，只支持 esm 格式构建输出。
+
 ## 1.3.1
 
 ### Patch Changes
