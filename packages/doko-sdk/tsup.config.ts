@@ -10,7 +10,7 @@ export default defineConfig({
   sourcemap: true,
   entry,
   dts: true,
-  format: ["esm", "cjs"],
+  format: ["esm"],
   // external: Object.keys(pkg.peerDependencies),
   clean: true,
   treeshake: true,
