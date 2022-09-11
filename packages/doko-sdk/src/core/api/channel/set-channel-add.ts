@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 import { ChannelModel, ChannelType } from "../../../index.js";
 
@@ -17,7 +17,7 @@ export namespace setChannelAdd {
     channelType: ChannelType;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       channelId: ChannelModel["channelId"];
     }> {}
 }

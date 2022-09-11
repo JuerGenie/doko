@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 import { SwitchStatus } from "../../model/switch-status.js";
 import { MicSortStatus } from "../../model/mic-sort-status.js";
@@ -13,7 +13,7 @@ export namespace getChannelVoiceMemberStatus {
     dodoId: string;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       /** 所在语音频道ID */
       channelId: string;
       spkStatus: SwitchStatus;

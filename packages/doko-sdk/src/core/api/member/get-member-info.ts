@@ -1,5 +1,5 @@
 import { MemberModel } from "../../model/member.js";
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -11,7 +11,7 @@ export namespace getMemberInfo {
     islandId: string;
     dodoId: string;
   }
-  export interface Response extends DokoResponse<MemberModel> {}
+  export interface Response extends DodoResponse<MemberModel> {}
 }
 
 export function getMemberInfo(

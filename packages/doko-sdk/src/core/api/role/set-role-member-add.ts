@@ -1,4 +1,4 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /**
@@ -11,7 +11,7 @@ export namespace setRoleMemberAdd {
     dodoId: string;
     roleId: string;
   }
-  export interface Response extends DokoResponse<void> {}
+  export interface Response extends DodoResponse<void> {}
 }
 
 export function setRoleMemberAdd(

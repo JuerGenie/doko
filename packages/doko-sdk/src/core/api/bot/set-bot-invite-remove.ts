@@ -1,4 +1,4 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /**
@@ -9,7 +9,7 @@ export namespace setBotInviteRemove {
   export interface Request {
     dodoId: string;
   }
-  export interface Response extends DokoResponse<{}> {}
+  export interface Response extends DodoResponse<{}> {}
 }
 
 export function setBotInviteRemove(

@@ -1,5 +1,5 @@
 import { RoleModel } from "../../model/role.js";
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -14,7 +14,7 @@ export namespace setRoleAdd {
     position?: number;
     permission?: string;
   }
-  export interface Response extends DokoResponse<Pick<RoleModel, "roleId">> {}
+  export interface Response extends DodoResponse<Pick<RoleModel, "roleId">> {}
 }
 
 export function setRoleAdd(

@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -13,7 +13,7 @@ export namespace setChannelArticleAdd {
     imageUrl?: string;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       articleId: string;
     }> {}
 }

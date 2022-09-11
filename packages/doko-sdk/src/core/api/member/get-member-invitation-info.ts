@@ -1,4 +1,4 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /**
@@ -11,7 +11,7 @@ export namespace getMemberInvitationInfo {
     dodoId: string;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       dodoId: string;
       nickName: string;
       invitationCount: number;

@@ -5,6 +5,7 @@ import Doko, {
   Emoji,
   IslandModel,
   MemberModel,
+  MessageType,
   RoleModel,
 } from "../../index.js";
 import axios from "axios";
@@ -21,29 +22,40 @@ import * as memberApi from "./member/index.js";
 import * as roleApi from "./role/index.js";
 
 import _ from "lodash";
+import { delay } from "../../utils/timer.js";
 
 const { Axios } = axios;
 
 export class DodoApi extends Axios {
+  isReady: Promise<boolean>;
+
   constructor(private doko: Doko) {
     super({
       baseURL: "https://botopen.imdodo.com",
     });
 
     // 初始化中间件
-    factors.forEach((factor) => {
-      const { request, response } = factor(this.doko);
+    this.isReady = Promise.all(
+      factors.map(async (factor) => {
+        await delay();
+        const { request, response } = factor(this.doko);
 
-      if (request) {
-        this.interceptors.request.use(request.onFulfilled, request.onRejected);
-      }
-      if (response) {
-        this.interceptors.response.use(
-          response.onFulfilled,
-          response.onRejected
-        );
-      }
-    });
+        if (request) {
+          this.interceptors.request.use(
+            request.onFulfilled,
+            request.onRejected
+          );
+        }
+        if (response) {
+          this.interceptors.response.use(
+            response.onFulfilled,
+            response.onRejected
+          );
+        }
+      })
+    ).then(() => true);
+
+    return this;
   }
 
   /** 机器人API */
@@ -194,9 +206,9 @@ export class DodoApi extends Axios {
 
             /** 文本频道API */
             message: () => ({
-              send: (
+              send: <T extends MessageType>(
                 params: Omit<
-                  channelApi.setChannelMessageSend.Request,
+                  channelApi.setChannelMessageSend.Request<T>,
                   "channelId"
                 >
               ) =>
@@ -207,15 +219,19 @@ export class DodoApi extends Axios {
 
               /** 文本频道消息实例API */
               with: <
-                T extends Pick<
+                M extends Pick<
                   RawChannelMessageEvent["eventBody"],
-                  "messageId" | "messageBody" | "messageType"
-                >
+                  "messageId"
+                > & {
+                  messageType: T;
+                } & Partial<
+                    Pick<RawChannelMessageEvent["eventBody"], "messageBody">
+                  >,
+                T extends MessageType
               >({
                 messageId,
-                messageBody,
-              }: T) => ({
-                edit: () =>
+              }: M) => ({
+                edit: (messageBody: NonNullable<M["messageBody"]>) =>
                   channelApi.setChannelMessageEdit.call(this, {
                     messageId,
                     messageBody,
@@ -336,12 +352,12 @@ export class DodoApi extends Axios {
 
 export { insertFactor } from "./interceptors/index.js";
 
-export interface DokoResponse<T = unknown> {
+export interface DodoResponse<T = unknown> {
   status: StatusCode;
   message: string;
   data: T;
 }
 
-export type ApiResponse<T extends DokoResponse> = Promise<AxiosResponse<T>>;
+export type ApiResponse<T extends DodoResponse> = Promise<AxiosResponse<T>>;
 
 export * from "./status.js";

@@ -1,4 +1,7 @@
-import { Doko, SendableDokoMessage } from "../../index.js";
+import { getLogger } from "../../utils/logger.js";
+import { Doko, MessageType, SendableDokoMessage } from "../../index.js";
+
+const logger = getLogger("Utils");
 
 export function defineResponse(
   doko: Doko,
@@ -9,8 +12,10 @@ export function defineResponse(
     channelId: string;
   }
 ) {
-  return (
-    params: SendableDokoMessage,
+  logger.debug("define response ->", evt.messageId);
+
+  return <T extends MessageType>(
+    params: SendableDokoMessage<T>,
     options: {
       /** 回复此条消息 */
       reply?: boolean;
@@ -18,6 +23,10 @@ export function defineResponse(
       personalOnly?: boolean;
     } = {}
   ) => {
+    logger.debug("response ->", [
+      `(reply: ${options.reply}, personalOnly: ${options.personalOnly})`,
+      JSON.stringify(params),
+    ]);
     return doko.dodo
       .island()
       .with(evt)

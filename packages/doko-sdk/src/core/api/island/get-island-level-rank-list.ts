@@ -1,4 +1,4 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /** 获取群等级排行榜 */
@@ -6,7 +6,7 @@ export namespace getIslandLevelRankList {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<RankData[]> {}
+  export interface Response extends DodoResponse<RankData[]> {}
 
   export interface RankData {
     dodoId: string;

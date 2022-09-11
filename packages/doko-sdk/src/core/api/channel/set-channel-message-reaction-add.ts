@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 import { Emoji } from "../../../index.js";
 
@@ -11,7 +11,7 @@ export namespace setChannelMessageReactionAdd {
     messageId: string;
     emoji: Emoji;
   }
-  export interface Response extends DokoResponse<void> {}
+  export interface Response extends DodoResponse<void> {}
 }
 
 export function setChannelMessageReactionAdd(

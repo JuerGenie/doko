@@ -1,5 +1,5 @@
 import { RoleModel } from "../../model/role.js";
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -10,7 +10,7 @@ export namespace getRoleList {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<RoleModel[]> {}
+  export interface Response extends DodoResponse<RoleModel[]> {}
 }
 
 export function getRoleList(

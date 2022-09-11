@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -11,7 +11,7 @@ export namespace setChannelVoiceMemberEdit {
     dodoId: string;
     operateType: OperateType;
   }
-  export interface Response extends DokoResponse<void> {}
+  export interface Response extends DodoResponse<void> {}
 }
 
 export enum OperateType {

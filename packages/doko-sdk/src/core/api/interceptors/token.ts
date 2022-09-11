@@ -1,13 +1,18 @@
+import { getLogger } from "../../../utils/logger.js";
 import { defineInterceptor } from "./define.js";
 
-export default defineInterceptor((doko) => {
-  const tokenStore = doko.store.useToken();
+const logger = getLogger("Token");
 
+export default defineInterceptor((doko) => {
   return {
     request: {
       onFulfilled(value) {
-        if (value.headers && tokenStore.clientId && tokenStore.token) {
-          value.headers["Authorization"] = tokenStore.header;
+        logger.debug(value.headers, doko.get("clientId"), doko.get("token"));
+        if (value.headers && doko.get("clientId") && doko.get("token")) {
+          value.headers["Authorization"] = `Bot ${[
+            doko.get("clientId"),
+            doko.get("token"),
+          ].join(".")}`;
         }
         return value;
       },

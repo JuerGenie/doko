@@ -21,7 +21,7 @@ export interface CardMessageParagraph {
   type: "section";
   text: {
     type: "paragraph";
-    cols: `${number}`;
+    cols: number;
     fields: CardMessageText["text"][];
   };
 }

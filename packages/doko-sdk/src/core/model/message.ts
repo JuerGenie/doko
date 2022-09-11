@@ -84,16 +84,22 @@ export interface CardMessage {
   };
 }
 
-export type DokoMessage =
+export type DokoMessage<T extends MessageType = MessageType> = (
   | TextMessage
   | PictureMessage
   | VideoMessage
   | ShareMessage
   | FileMessage
-  | CardMessage;
+  | CardMessage
+) & {
+  messageType: T;
+};
 
-export type SendableDokoMessage =
+export type SendableDokoMessage<T extends MessageType = MessageType> = (
   | TextMessage
   | PictureMessage
   | VideoMessage
-  | CardMessage;
+  | CardMessage
+) & {
+  messageType: T;
+};

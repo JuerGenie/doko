@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { IslandModel } from "../../model/island.js";
 import { Axios } from "axios";
 
@@ -7,7 +7,7 @@ export namespace getIslandInfo {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<IslandModel> {}
+  export interface Response extends DodoResponse<IslandModel> {}
 }
 
 export function getIslandInfo(

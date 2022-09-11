@@ -1,4 +1,4 @@
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /** 获取群封禁名单 */
@@ -9,7 +9,7 @@ export namespace getIslandBanList {
     maxId: number;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       maxId: number;
       list: {
         dodoId: string;

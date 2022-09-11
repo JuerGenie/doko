@@ -6,7 +6,7 @@ import {
   TextMessage,
   VideoMessage,
 } from "../../../index.js";
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { Axios } from "axios";
 
 /**
@@ -25,7 +25,7 @@ export namespace setChannelMessageEdit {
       | FileMessage
     )["messageBody"];
   }
-  export interface Response extends DokoResponse<void> {}
+  export interface Response extends DodoResponse<void> {}
 }
 
 export function setChannelMessageEdit(

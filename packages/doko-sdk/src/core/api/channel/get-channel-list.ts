@@ -1,4 +1,4 @@
-import { ApiResponse, DokoResponse } from "../index.js";
+import { ApiResponse, DodoResponse } from "../index.js";
 import { ChannelModel } from "../../../index.js";
 import { Axios } from "axios";
 
@@ -7,7 +7,7 @@ export namespace getChannelList {
   export interface Request {
     islandId: string;
   }
-  export interface Response extends DokoResponse<ChannelModel[]> {}
+  export interface Response extends DodoResponse<ChannelModel[]> {}
 }
 
 export function getChannelList(

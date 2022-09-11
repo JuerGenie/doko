@@ -1,5 +1,5 @@
 import { MemberModel } from "../../model/member.js";
-import type { ApiResponse, DokoResponse } from "../index.js";
+import type { ApiResponse, DodoResponse } from "../index.js";
 import type { Axios } from "axios";
 
 /**
@@ -12,7 +12,7 @@ export namespace getBotInviteList {
     maxId: number;
   }
   export interface Response
-    extends DokoResponse<{
+    extends DodoResponse<{
       maxId: number;
       list: Pick<MemberModel, "dodoId" | "nickName" | "avatarUrl">[];
     }> {}
